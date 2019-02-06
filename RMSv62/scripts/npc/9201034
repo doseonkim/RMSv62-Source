@@ -1,0 +1,27 @@
+*/
+NPC in JQ
+*/
+
+var status = 0;
+
+function start() {
+    cm.sendYesNo("Do you want to go back to henesys??. \r\n#rMade by Admin of UnitedStory");
+}
+
+function action(mode, type, selection) {
+    if (mode == -1)
+        cm.dispose();
+    else {
+        if (mode == 0) {
+            cm.sendOk("Thats the spirit!");
+            cm.dispose();
+        } else
+            status++;
+        if (status == 1)
+            cm.sendNext("Better luck next time :\.");
+        else if (status == 2) {
+            cm.warp(100000000, 0);
+            cm.dispose();
+        }
+    }
+}

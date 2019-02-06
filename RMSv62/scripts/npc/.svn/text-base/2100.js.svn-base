@@ -1,0 +1,81 @@
+/* Sera
+* By hector // MrMysterious // Moogra // Osiris // Lol it took 4 people to make this?
+*
+function start() {
+    cm.warp(100000000);
+    cm.dispose();
+} */
+
+/*  
+    Sera
+    by Karsall
+*/
+
+importPackage(net.sf.odinms.client);
+
+var status = 0;
+var item = Array(1002498, 1002031, 1002235, 1002279, 1002280, 1002417, 1002536, 1002678, 1002735, 1002736, 1000014, 1000020, 1002071 ,1002186, 1002256, 1002317, 1002312, 1002343, 1002409);
+var eq = 1312017; // Chief axe
+var map = 100000000; // Henesys
+var christmas = 0; // 1 = true, 0 = false.
+var selectedItem = -1;
+var nextItem = -1;
+
+
+function start() {
+    status = -1;
+    action(1, 0, 0);
+}
+
+function action(mode, type, selection) {
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (mode == 0) {
+            cm.dispose();
+            return;
+        }
+        if (mode == 1)
+            status++;
+        else
+            status--;
+        if (status == 0) {
+            var select = "Hello, please choose an item:#b";
+            for (var i = 0; i < item.length; i++)
+                select += "\r\n#L" + i + "##v" + item[i] + "# #z" + item[i] + "##l";
+            cm.sendSimple(select);
+        } else if (status == 1) {
+            cm.sendYesNo("Are you sure you want\r\n#b#v" + item[selection] + "# #z" + item[selection] + "##k\r\nAs your starter item?");
+            selectedItem = selection;
+        } else if (status == 2) {
+            if (christmas == 1) {
+                var xmas = "There you go, and because it's christmas (orly?) you get to pick ANOTHER item :D#b"
+                for (var i = 0; i < item.length; i++)
+                    xmas += "\r\n#L" + i + "##v" + item[i] + "# #z" + item[i] + "##l";
+                cm.sendSimple(xmas);
+            } else {
+                cm.sendNext("Wise choise my friend...");
+            }
+            cm.gainItem(item[selectedItem],1);
+        } else if (status == 3) { 
+            if (christmas == 1) {
+                cm.sendNext("You picked\r\n#b#v" + item[selection] + "# #z" + item[selection] + "##k\r\nAs your second item...");
+                nextItem = selection;
+            } else {
+                cm.sendNext("Get ready to start your journey..");
+            }
+        } else if (status == 4) { 
+            if (christmas == 1) {
+                cm.sendNext("Here you go, enjoy your\r\n#b#v" + item[selectedItem] + "# #z" + item[selectedItem] + "#\r\n#v" + item[nextItem] + "# #z" + item[nextItem] + "##k\r\nA gift from me, #b#v" + eq + "# #z" + eq + "##k.\r\n I'm maxing your skills and resetting your stats now, so it might lagg a little...");
+                cm.gainItem(item[nextItem],1);            
+            } else {
+                cm.sendNext("Oh by the way, enjoy your\r\n#b#v" + item[selectedItem] + "# #z" + item[selectedItem] + "##k\r\nA gift from me, #b#v" + eq + "# #z" + eq + "##k.\r\nAnd one other thing, i'm maxing your skills & resetting your stats, so it might lagg a little...");
+            }
+            cm.getChar().maxAllSkills(); // Remove this line if it error's you
+        } else if (status == 5) {
+            cm.gainItem(eq,1);
+            cm.warp(map,0);
+            cm.dispose();
+        }
+    }
+}  
